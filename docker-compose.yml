@@ -1,0 +1,29 @@
+# https://docs.docker.com/compose/compose-file/
+# https://docs.docker.com/compose/how-tos/dependent-images/
+
+name: base
+
+services:
+
+  trixie:
+    build:
+      context: trixie/
+    # disable the entrypoint as the image is only being built for use by
+    # trixie-dev
+    entrypoint: /bin/true
+    image: trixie
+
+  trixie-dev:
+    build:
+      additional_contexts:
+        trixie: "service:trixie"
+      args:
+        PARENT_IMAGE: trixie
+      context: dev/
+    command: /bin/sh -c '
+      trap "exit" TERM;
+      echo "Sleeping 💤";
+      while true; do sleep 9 || break; done
+      '
+    env_file: .env
+    restart: on-failure
