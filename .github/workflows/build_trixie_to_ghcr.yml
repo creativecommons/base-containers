@@ -1,6 +1,6 @@
 # https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax
 # https://docs.github.com/en/actions/reference/workflows-and-actions/variables
-name: Build/push trixie to GHCR
+name: Build & push trixie to GHCR
 # GHCR: GitHub Container Registry
 
 on:
