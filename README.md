@@ -3,6 +3,13 @@
 Early container stages to serve as a foundation for application containers.
 
 
+## Image documentation
+
+Image documentation:
+- [trixie](https://github.com/creativecommons/base-containers/trixie/)
+- [test](trixie/README.md)
+
+
 ## Development
 
 
