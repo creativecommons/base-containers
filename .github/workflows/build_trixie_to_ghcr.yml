@@ -1,7 +1,6 @@
 # https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax
 # https://docs.github.com/en/actions/reference/workflows-and-actions/variables
-name: Build and push CC trixie Docker images to GHCR
-# CC: Creative Commons
+name: Build/push trixie to GHCR
 # GHCR: GitHub Container Registry
 
 on:
@@ -10,6 +9,7 @@ on:
     paths:
       - '.github/workflows/build_to_ghcr.yml'
       - 'trixie/'
+  workflow_dispatch:
 
 env:
   OCI: org.opencontainers.image
