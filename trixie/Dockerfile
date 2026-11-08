@@ -9,7 +9,6 @@ FROM debian:trixie-slim
 ARG OCI=org.opencontainers.image
 LABEL $OCI.description="Creative Commons (CC) Debian 13 (trixe)"
 LABEL $OCI.source="https://github.com/creativecommons/base-containers"
-LABEL $OCI.title="CC Debian trixie"
 LABEL $OCI.vendor="Creative Commons"
 
 # https://docs.docker.com/build/building/best-practices/#apt-get

@@ -47,7 +47,8 @@ jobs:
             images: ghcr.io/creativecommons/trixie
             labels: "
                 org.opencontainers.image.created\
-                  ={{commit_date 'YYYY-MM-DDTHH:mm:ss.SSS[Z]'}}
+                  ={{commit_date 'YYYY-MM-DDTHH:mm:ss.SSS[Z]'}}\n
+                org.opencontainers.image.title='CC Debian trixie'
                 "
             tags: "
               type=schedule,pattern={{date 'YYYYMMDD-HHmmss'}},value=latest\
