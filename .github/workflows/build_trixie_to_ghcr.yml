@@ -18,7 +18,7 @@ env:
 jobs:
 
   prek_checks:
-    uses: '.github/workflows/prek_checks.yml'
+    uses: $/.github/workflows/prek_checks.yml
 
   build-and-push:
     needs: prek_checks
