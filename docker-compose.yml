@@ -6,21 +6,21 @@ name: ccbase
 services:
 
   # Creative Commons Debian 13 (trixie) slim
-  cctrixie:
+  trixie:
     build:
-      context: cctrixie/
+      context: trixie/
     # disable the entrypoint as the image is only being built for use by
-    # cctrixie-dev
+    # trixie-dev
     entrypoint: /bin/true
-    image: cctrixie
+    image: trixie
 
   # Development overlay (local parent)
-  cctrixie-dev:
+  trixie-dev:
     build:
       additional_contexts:
-        cctrixie: "service:cctrixie"
+        trixie: "service:trixie"
       dockerfile_inline: |
-        FROM cctrixie
+        FROM trixie
         # https://docs.docker.com/build/building/best-practices/#apt-get
         # - Resynchronize the package index, update packages, install packages,
         #   and clean-up apt/dpkg
