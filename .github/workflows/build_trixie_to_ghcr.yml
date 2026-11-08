@@ -45,13 +45,15 @@ jobs:
           with:
             flavor: 'latest=false'
             images: ghcr.io/creativecommons/trixie
-            labels: |
-              org.opencontainers.image.created=\
-                {{commit_date 'YYYY-MM-DDTHH:mm:ss.SSS[Z]'}}
-            tags: |
+            labels: "
+                org.opencontainers.image.created\
+                  ={{commit_date 'YYYY-MM-DDTHH:mm:ss.SSS[Z]'}}
+                "
+            tags: "
               type=schedule,pattern={{date 'YYYYMMDD-HHmmss'}},value=latest\
-                ,enable={{is_default_branch}}
+                ,enable={{is_default_branch}}\n
               type=sha,prefix={{branch}}-
+              "
 
         # https://github.com/docker/setup-buildx-action
         - name: Docker setup Buildx
