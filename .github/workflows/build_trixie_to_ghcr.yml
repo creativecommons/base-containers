@@ -71,9 +71,6 @@ jobs:
           uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 
 
-      - name: Use image ReadMe
-        run: mv -f trixie/README.md README.md
-
       # https://github.com/docker/build-push-action
       - name: Build and push Docker trixie image to GHCR
         # build-push-action v7.4.0
