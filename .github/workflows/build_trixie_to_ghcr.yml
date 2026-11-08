@@ -7,7 +7,7 @@ on:
   push:
     branches: ["**"]
     paths:
-      - '.github/workflows/build_to_ghcr.yml'
+      - '.github/workflows/build_trixie_to_ghcr.yml'
       - 'trixie/'
   workflow_dispatch:
 
