@@ -1,25 +1,26 @@
 # https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax
 # https://docs.github.com/en/actions/reference/workflows-and-actions/variables
-name: Build and push CC trixie Docker images to GHCR
-# CC: Creative Commons
+name: Build & push trixie to GHCR
 # GHCR: GitHub Container Registry
 
 on:
   push:
-    branches: ["**"]
     paths:
-      - '.github/workflows/build_to_ghcr.yml'
+      - '.github/workflows/build_trixie_to_ghcr.yml'
+      - '.github/workflows/prek_checks.yml'
       - 'trixie/'
+  workflow_dispatch:
 
 env:
   OCI: org.opencontainers.image
 
 jobs:
   build-and-push:
-    runs-on: ubuntu-latest
+    needs: "prek checks"
     permissions:
       contents: read
       packages: write
+    runs-on: ubuntu-latest
 
     steps:
 
