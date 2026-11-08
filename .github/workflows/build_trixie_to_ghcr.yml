@@ -4,6 +4,7 @@ name: Build & push trixie to GHCR
 # GHCR: GitHub Container Registry
 
 on:
+  create:
   push:
     paths:
       - '.github/workflows/build_trixie_to_ghcr.yml'
