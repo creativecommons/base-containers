@@ -6,24 +6,50 @@ Early container stages to serve as a foundation for application containers.
 ## Development
 
 
-### Setup
+### Dependencies
 
-1. Install Docker ([Get Docker | Docker Docs][get-docker])
-2. Install hadolint ([Install - hadolint/hadolint][hadolint-install])
-3. Install shellcheck ([Installing - koalaman/shellcheck][shellcheck-install])
-4. Install prek ([Installation - j178/prek][prek-install])
-5. Prepare and install prek Git hooks:
+1. Install Docker ([Get Docker | Docker Docs][docker-install])
+2. Install addititional dependencies
+   macOS installation example:
+   ```shell
+   brew install hadolint prek railway rsync shellcheck
+   ```
+   1. Install hadolint ([Install - hadolint/hadolint][hadolint-install])
+   2. Install prek ([Installation - j178/prek][prek-install])
+   3. Install Railway CLI ([Installing - CLI | Railway Docs][railway-install])
+   4. Install Rsync ([rsync download][rsync-install])
+   5. Install shellcheck ([Installing -
+      koalaman/shellcheck][shellcheck-install])
+
+[docker-install]: https://docs.docker.com/get-started/get-docker/
+[hadolint-install]: https://github.com/hadolint/hadolint#install
+[prek-install]: https://github.com/j178/prek#installation
+[railway-install]: https://docs.railway.com/cli#installing-the-cli
+[rsync-install]: https://rsync.samba.org/download.html
+[shellcheck-install]: https://github.com/koalaman/shellcheck#installing
+
+
+## Setup
+
+1. Prepare and install prek Git hooks:
    ```shell
    prek install --prepare-hooks
    ```
-
-[get-docker]: https://docs.docker.com/get-started/get-docker/
-[hadolint-install]: https://github.com/hadolint/hadolint#install
-[shellcheck-install]: https://github.com/koalaman/shellcheck#installing
-[prek-install]: https://github.com/j178/prek#installation
+2. Create the enviornment `.env` file by copying
+   [`.env.example`](.env.example):
+    ```shell
+    cp .env.example .env
+    ```
+2. Update `.env` to ensure all variable have appropriate values.
+3. Build Docker Compose services:
+    ```shell
+    docker-compose build
+    ```
 
 
 ### Static analysis
+
+Analysis on git commit is configure in Setup, step 1, above.
 
 Prek can be invoked manually:
 ```shell

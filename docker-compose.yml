@@ -1,29 +1,48 @@
 # https://docs.docker.com/compose/compose-file/
 # https://docs.docker.com/compose/how-tos/dependent-images/
 
-name: base
+name: ccbase
 
 services:
 
-  trixie:
+  # Creative Commons Debian 13 (trixie) slim
+  cctrixie:
     build:
-      context: trixie/
+      context: cctrixie/
     # disable the entrypoint as the image is only being built for use by
-    # trixie-dev
+    # cctrixie-dev
     entrypoint: /bin/true
-    image: trixie
+    image: cctrixie
 
-  trixie-dev:
+  # Development overlay (local parent)
+  cctrixie-dev:
     build:
       additional_contexts:
-        trixie: "service:trixie"
-      args:
-        PARENT_IMAGE: trixie
-      context: dev/
+        cctrixie: "service:cctrixie"
+      dockerfile_inline: |
+        FROM cctrixie
+        # https://docs.docker.com/build/building/best-practices/#apt-get
+        # - Resynchronize the package index, update packages, install packages,
+        #   and clean-up apt/dpkg
+        RUN set -o errexit -o nounset \
+            && DEBIAN_FRONTEND=noninteractive apt-get update \
+                --no-allow-insecure-repositories --quiet \
+            && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade \
+                --no-install-recommends --no-install-suggests --quiet --yes \
+            && DEBIAN_FRONTEND=noninteractive apt-get install \
+                --no-install-recommends --no-install-suggests --quiet --yes \
+                curl \
+                httpie \
+                ripgrep \
+                tree \
+                vim \
+                wget \
+            && DEBIAN_FRONTEND=noninteractive apt-get clean --quiet \
+            && rm --recursive --force /var/lib/apt/lists/*
     command: /bin/sh -c '
       trap "exit" TERM;
       echo "Sleeping 💤";
       while true; do sleep 9 || break; done
       '
     env_file: .env
-    restart: on-failure
+    restart: 'no'
