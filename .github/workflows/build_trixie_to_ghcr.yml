@@ -15,8 +15,12 @@ env:
   OCI: org.opencontainers.image
 
 jobs:
+
+  prek_checks:
+    uses: '.github/workflows/prek_checks.yml'
+
   build-and-push:
-    needs: "prek checks"
+    needs: prek_checks
     permissions:
       contents: read
       packages: write
