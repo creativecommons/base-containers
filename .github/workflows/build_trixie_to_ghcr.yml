@@ -41,6 +41,8 @@ jobs:
         # https://github.com/docker/metadata-action
         - name: Docker extract metadata
           id: docker_meta
+          env:
+            DOCKER_METADATA_ANNOTATIONS_LEVELS: index
           # docker/metadata-action v6.2.0
           uses: docker/metadata-action@dc802804100637a589fabce1cb79ff13a1411302
           with:
@@ -51,10 +53,10 @@ jobs:
                 org.opencontainers.image.title=CC Debian trixie
                 "
             tags: "
-              type=raw,value=latest,enable={{is_default_branch}}\n
-              type=raw,value={{date 'YYYYMMDD-HHmmss'}}\
-                ,enable={{is_default_branch}}\n
-              type=sha,prefix={{branch}}-
+              type=raw,enable={{is_default_branch}}\
+                ,value={{date 'YYYYMMDD-HHmmss'}}\n
+              type=raw,enable={{is_default_branch}},priority=100,value=latest\n
+              type=sha,enable={{is_not_default_branch}},prefix={{branch}}-
               "
 
         # https://github.com/docker/setup-buildx-action
@@ -77,6 +79,7 @@ jobs:
         # build-push-action v7.4.0
         uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc
         with:
+          annotations: ${{ steps.docker_meta.outputs.annotations }}
           builder: ${{ steps.docker_buildx.outputs.name }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
