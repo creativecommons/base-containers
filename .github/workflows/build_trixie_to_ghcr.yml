@@ -52,11 +52,15 @@ jobs:
           # docker/metadata-action v6.2.0
           uses: docker/metadata-action@dc802804100637a589fabce1cb79ff13a1411302
           with:
-            context: 'git:trixie'
             images: ghcr.io/creativecommons/trixie
+            # https://specs.opencontainers.org/image-spec/annotations/
             labels: "
                 org.opencontainers.image.created\
                   ={{commit_date 'YYYY-MM-DDTHH:mm:ss.SSS[Z]'}}\n
+                org.opencontainers.image.description\
+                  =Creative Commons (CC) Debian 13 (trixe)\n
+                org.opencontainers.image.source\
+                  =https://github.com/creativecommons/base-containers/trixie\n
                 org.opencontainers.image.title=CC Debian trixie
                 "
             tags: "
