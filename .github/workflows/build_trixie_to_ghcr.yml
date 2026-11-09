@@ -10,6 +10,7 @@ on:
       - '.github/workflows/build_trixie_to_ghcr.yml'
       - '.github/workflows/prek_checks.yml'
       - 'trixie/'
+      - '!trixie/README.md'
   workflow_dispatch:
 
 jobs:
