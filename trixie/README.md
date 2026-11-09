@@ -1,12 +1,12 @@
-# trixie
+# CC Debian trixie
 
 Creative Commons (CC) Debian 13 (trixie) Docker base image
 
 
 ## Overview
 
-The goal of the  `trixie` base image is to provide a consistent platform for
-application images.
+The goal of the CC Debian trixie base image is to provide a consistent platform
+for application images.
 
 - **Docker `FROM` image:** [`debian:trixie-slim`][docker-trixie]
 - **Docker `ENTRYPOINT`:** [`entrypoint.sh`](entrypoint.sh)
