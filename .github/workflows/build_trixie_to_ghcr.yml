@@ -17,7 +17,10 @@ env:
   DESCRIPTION: 'Creative Commons (CC) Debian 13 (trixe)'
   OCI: 'org.opencontainers.image'
   TITLE: 'CC Debian trixie'
+  TYPE_RAW__DEFAULT_ONLY__VALUE_DATE: >-
+    type=raw,enable={{is_default_branch}},value={{date 'YYYYMMDD-HHmmss'}}
   URL: 'https://github.com/creativecommons/base-containers/trixie'
+  VENDOR: 'Creative Commons'
 
 jobs:
 
@@ -48,35 +51,30 @@ jobs:
         - name: Docker extract metadata
           id: docker_meta
           env:
-            #DOCKER_METADATA_ANNOTATIONS_LEVELS: manifest,manifest-descriptor,index,index-descriptor
             DOCKER_METADATA_ANNOTATIONS_LEVELS: index
           # docker/metadata-action v6.2.0
           uses: docker/metadata-action@dc802804100637a589fabce1cb79ff13a1411302
           with:
-            annotations: "
-                ${{ env.OCI }}.created\
-                  ={{commit_date 'YYYY-MM-DDTHH:mm:ss.SSS[Z]'}}\n
-                ${{ env.OCI }}.description=${{ env.DESCRIPTION }}\n
-                ${{ env.OCI }}.source=${{ env.URL }}\n
-                ${{ env.OCI }}.title=${{ env.TITLE }}\n
-                ${{ env.OCI }}.url=${{ env.URL }}\n
-                "
+            annotations: |
+              ${{ env.OCI }}.created={{ date 'YYYY-MM-DDTHH:mm:ss.SSS[Z]' }}
+              ${{ env.OCI }}.description=${{ env.DESCRIPTION }}
+              ${{ env.OCI }}.source=${{ env.URL }}
+              ${{ env.OCI }}.title=${{ env.TITLE }}
+              ${{ env.OCI }}.url=${{ env.URL }}
+              ${{ env.OCI }}.vendor=${{ env.VENDOR }}
             images: ghcr.io/creativecommons/trixie
             # https://specs.opencontainers.org/image-spec/annotations/
-            labels: "
-                ${{ env.OCI }}.created\
-                  ={{commit_date 'YYYY-MM-DDTHH:mm:ss.SSS[Z]'}}\n
-                ${{ env.OCI }}.description=${{ env.DESCRIPTION }}\n
-                ${{ env.OCI }}.source=${{ env.URL }}\n
-                ${{ env.OCI }}.title=${{ env.TITLE }}\n
-                ${{ env.OCI }}.url=${{ env.URL }}\n
-                "
-            tags: "
-              type=raw,enable={{is_default_branch}}\
-                ,value={{date 'YYYYMMDD-HHmmss'}}\n
-              type=raw,enable={{is_default_branch}},priority=100,value=latest\n
-              type=sha,enable={{is_not_default_branch}},prefix={{branch}}-
-              "
+            labels: |
+              ${{ env.OCI }}.created={{ date 'YYYY-MM-DDTHH:mm:ss.SSS[Z]' }}
+              ${{ env.OCI }}.description=${{ env.DESCRIPTION }}
+              ${{ env.OCI }}.source=${{ env.URL }}
+              ${{ env.OCI }}.title=${{ env.TITLE }}
+              ${{ env.OCI }}.url=${{ env.URL }}
+              ${{ env.OCI }}.vendor=${{ env.VENDOR }}
+            tags: |
+              ${{ TYPE_RAW__DEFAULT_ONLY__VALUE_DATE }}
+              type=raw,enable={{ is_default_branch }},priority=100,value=latest
+              type=sha,enable={{ is_not_default_branch }},prefix={{ branch }}-
 
         # https://github.com/docker/setup-buildx-action
         - name: Docker setup Buildx
