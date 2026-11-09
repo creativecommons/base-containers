@@ -47,8 +47,8 @@ jobs:
         # https://github.com/docker/metadata-action
         - name: Docker extract metadata
           id: docker_meta
-          #env:
-          #  DOCKER_METADATA_ANNOTATIONS_LEVELS: index
+          env:
+            DOCKER_METADATA_ANNOTATIONS_LEVELS: manifest-descriptor
           # docker/metadata-action v6.2.0
           uses: docker/metadata-action@dc802804100637a589fabce1cb79ff13a1411302
           with:
