@@ -54,27 +54,27 @@ jobs:
         - name: Docker extract metadata
           id: docker_meta
           env:
-            DOCKER_METADATA_ANNOTATIONS_LEVELS: index-descriptor
+            DOCKER_METADATA_ANNOTATIONS_LEVELS: manifest,manifest-descriptor,index,index-descriptor
           # docker/metadata-action v6.2.0
           uses: docker/metadata-action@dc802804100637a589fabce1cb79ff13a1411302
           with:
             annotations: "
                 ${{ env.OCI }}.created\
                   ={{commit_date 'YYYY-MM-DDTHH:mm:ss.SSS[Z]'}}\n
-                ${{ env.OCI}}.description=${{ env.DESCRIPTION }}\n
-                ${{ env.OCI}}.source=${{ env.TRIXIE_URL }}\n
-                ${{ env.OCI}}.title=${{ env.TITLE }}
-                ${{ env.OCI}}.url=${{ env.TRIXIE_URL }}\n
+                ${{ env.OCI }}.description=${{ env.DESCRIPTION }}\n
+                ${{ env.OCI }}.source=${{ env.URL }}\n
+                ${{ env.OCI }}.title=${{ env.TITLE }}
+                ${{ env.OCI }}.url=${{ env.URL }}\n
                 "
             images: ghcr.io/creativecommons/trixie
             # https://specs.opencontainers.org/image-spec/annotations/
             labels: "
                 ${{ env.OCI }}.created\
                   ={{commit_date 'YYYY-MM-DDTHH:mm:ss.SSS[Z]'}}\n
-                ${{ env.OCI}}.description=${{ env.DESCRIPTION }}\n
-                ${{ env.OCI}}.source=${{ env.TRIXIE_URL }}\n
-                ${{ env.OCI}}.title=${{ env.TITLE }}
-                ${{ env.OCI}}.url=${{ env.TRIXIE_URL }}\n
+                ${{ env.OCI }}.description=${{ env.DESCRIPTION }}\n
+                ${{ env.OCI }}.source=${{ env.URL }}\n
+                ${{ env.OCI }}.title=${{ env.TITLE }}
+                ${{ env.OCI }}.url=${{ env.URL }}\n
                 "
             tags: "
               type=raw,enable={{is_default_branch}}\
