@@ -17,7 +17,7 @@ env:
   DESCRIPTION: 'Creative Commons (CC) Debian 13 (trixe)'
   OCI: 'org.opencontainers.image'
   TITLE: 'CC Debian trixie'
-  TYPE-RAW_DEFAULT-ONLY_VALUE-DATE: >-
+  TYPE_RAW_DEFAULT_ONLY_VALUE_DATE: >-
     type=raw,enable={{is_default_branch}},value={{date 'YYYYMMDD-HHmmss'}}
   URL: 'https://github.com/creativecommons/base-containers/trixie'
   VENDOR: 'Creative Commons'
