@@ -52,7 +52,7 @@ jobs:
           # docker/metadata-action v6.2.0
           uses: docker/metadata-action@dc802804100637a589fabce1cb79ff13a1411302
           with:
-            context: 'git:trixie/'
+            context: 'git:trixie'
             images: ghcr.io/creativecommons/trixie
             labels: "
                 org.opencontainers.image.created\
@@ -85,7 +85,7 @@ jobs:
           builder: ${{ steps.docker_buildx.outputs.name }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
-          context: trixie/
+          context: trixie
           labels: ${{ steps.docker_meta.outputs.labels }}
           platforms: ${{ steps.docker_buildx.outputs.platforms }}
           provenance: false
