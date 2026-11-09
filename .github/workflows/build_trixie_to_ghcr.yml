@@ -54,7 +54,8 @@ jobs:
         - name: Docker extract metadata
           id: docker_meta
           env:
-            DOCKER_METADATA_ANNOTATIONS_LEVELS: manifest,manifest-descriptor,index,index-descriptor
+            #DOCKER_METADATA_ANNOTATIONS_LEVELS: manifest,manifest-descriptor,index,index-descriptor
+            DOCKER_METADATA_ANNOTATIONS_LEVELS: manifest,index
           # docker/metadata-action v6.2.0
           uses: docker/metadata-action@dc802804100637a589fabce1cb79ff13a1411302
           with:
@@ -63,7 +64,7 @@ jobs:
                   ={{commit_date 'YYYY-MM-DDTHH:mm:ss.SSS[Z]'}}\n
                 ${{ env.OCI }}.description=${{ env.DESCRIPTION }}\n
                 ${{ env.OCI }}.source=${{ env.URL }}\n
-                ${{ env.OCI }}.title=${{ env.TITLE }}
+                ${{ env.OCI }}.title=${{ env.TITLE }}\n
                 ${{ env.OCI }}.url=${{ env.URL }}\n
                 "
             images: ghcr.io/creativecommons/trixie
@@ -73,7 +74,7 @@ jobs:
                   ={{commit_date 'YYYY-MM-DDTHH:mm:ss.SSS[Z]'}}\n
                 ${{ env.OCI }}.description=${{ env.DESCRIPTION }}\n
                 ${{ env.OCI }}.source=${{ env.URL }}\n
-                ${{ env.OCI }}.title=${{ env.TITLE }}
+                ${{ env.OCI }}.title=${{ env.TITLE }}\n
                 ${{ env.OCI }}.url=${{ env.URL }}\n
                 "
             tags: "
