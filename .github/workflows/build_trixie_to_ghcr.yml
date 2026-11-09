@@ -55,7 +55,7 @@ jobs:
           id: docker_meta
           env:
             #DOCKER_METADATA_ANNOTATIONS_LEVELS: manifest,manifest-descriptor,index,index-descriptor
-            #DOCKER_METADATA_ANNOTATIONS_LEVELS: manifest,index
+            DOCKER_METADATA_ANNOTATIONS_LEVELS: manifest
           # docker/metadata-action v6.2.0
           uses: docker/metadata-action@dc802804100637a589fabce1cb79ff13a1411302
           with:
