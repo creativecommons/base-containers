@@ -44,7 +44,6 @@ jobs:
           # docker/metadata-action v6.2.0
           uses: docker/metadata-action@dc802804100637a589fabce1cb79ff13a1411302
           with:
-            flavor: 'latest=false'
             images: ghcr.io/creativecommons/trixie
             labels: "
                 org.opencontainers.image.created\
@@ -52,7 +51,8 @@ jobs:
                 org.opencontainers.image.title=CC Debian trixie
                 "
             tags: "
-              type=schedule,pattern={{date 'YYYYMMDD-HHmmss'}},value=latest\
+              type=raw,value=latest,enable={{is_default_branch}}\n
+              type=raw,value={{date 'YYYYMMDD-HHmmss'}}\
                 ,enable={{is_default_branch}}\n
               type=sha,prefix={{branch}}-
               "
