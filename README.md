@@ -5,12 +5,12 @@ Early container stages to serve as a foundation for application containers.
 
 ## Image documentation
 
-Image documentation:
-- [trixie](https://github.com/creativecommons/base-containers/trixie/)
-- [test](trixie/README.md)
+- [trixie](trixie/)
 
 
 ## Development
+
+Local development uses Docker Compose and a suite of static analysis tools.
 
 
 ### Dependencies
