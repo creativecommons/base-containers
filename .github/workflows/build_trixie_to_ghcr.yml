@@ -72,7 +72,7 @@ jobs:
               ${{ env.OCI }}.url=${{ env.URL }}
               ${{ env.OCI }}.vendor=${{ env.VENDOR }}
             tags: |
-              ${{ TYPE-RAW_DEFAULT-ONLY_VALUE-DATE }}
+              ${{ TYPE_RAW_DEFAULT_ONLY_VALUE_DATE }}
               type=raw,enable={{ is_default_branch }},priority=100,value=latest
               type=sha,enable={{ is_not_default_branch }},prefix={{ branch }}-
 
