@@ -10,6 +10,8 @@ trap '_es=${?};
     printf " exited with a status of ${_es}\n";
     exit ${_es}' ERR
 
+source /srv/container/color_vars.sh
+
 #### FUNCTIONS ################################################################
 
 error_exit() {
@@ -62,8 +64,6 @@ require_vars() {
 }
 
 #### MAIN #####################################################################
-
-source /srv/container/color_vars.sh
 
 # Read and execute commands from all configuration scripts in the current shell
 # environment and return the last command executed from that configuration
