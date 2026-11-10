@@ -1,7 +1,8 @@
 #!/bin/bash
 # shellcheck disable=SC2034
+# Comptabile with Dash (the Debian Almquist shell)
 #
-# This file is sourced by /srv/container/entrypoint.sh
+# This file is sourced by /etc/runit/boot-run/setup.sh
 # (It shouldn't be executed directly)
 
 # https://en.wikipedia.org/wiki/ANSI_escape_code

@@ -1,0 +1,15 @@
+# Like /etc/dpkg/dpkg.cfg.d/docker, this excludes files which are unnecessary
+# https://manpages.debian.org/trixie/dpkg/dpkg.1.en.html#path
+
+# getty-run
+path-exclude /etc/sv/getty-*
+
+# runit
+#path-exclude /etc/sv/default-syslog*
+#path-exclude /usr/share/runit/meta/default-syslog*
+
+# socklog-run
+path-exclude /etc/sv/socklog-inet*
+path-exclude /etc/sv/socklog-klog*
+path-exclude /etc/sv/socklog-notify*
+path-exclude /etc/sv/socklog-ucspi-tcp*
