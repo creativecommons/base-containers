@@ -27,8 +27,6 @@ RUN set -o errexit -o nounset \
     && rm --recursive --force /var/lib/apt/lists/* \
     && update-ca-certificates
 
-COPY etc-runit-3 /etc/runit/3
-
 # Runit configuration
 #
 # `rm -f /usr/sbin/policy-rc.d` reverts:
