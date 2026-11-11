@@ -9,11 +9,13 @@ The goal of the CC Debian trixie base image is to provide a consistent platform
 for application images.
 
 - **Docker `FROM` image:** [`debian:trixie-slim`][docker-trixie]
-- **Docker `ENTRYPOINT`:** [`entrypoint.sh`](entrypoint.sh)
-  - In image: `/srv/container/entrypoint.sh`
-- **Docker `CMD`:** _unset_
+- **Docker `ENTRYPOINT`:** `["/usr/bin/dumb-init", "/etc/container/setup.sh"]`
+- **Docker `CMD`:** _unset, ignored_
 - **Notable inclusions:**
-  - `msmtp` to allow sending emails
+  1. `dumb-init` to manage processes (init, PID 1)
+  2. `runit` to manage services
+  3. `socklog` to send syslog messages to init stdout (docker log)
+  4. `msmtp` to allow sending emails
 - **Required variables:**
   - `MSMTP_FROM_EMAIL`
   - `MSMTP_MAILNAME`
@@ -22,25 +24,28 @@ for application images.
   - `MSMTP_SERVER_PASSWORD`
   - `MSMTP_SERVER_USER`
 
+> [!NOTE]
+> `CMD` is ignored by this image. Instead service(s) must be installed and
+> enabled per runit.
+
 [docker-trixie]: https://hub.docker.com/_/debian
 
 
 ## Configuration
 
-When the image starts up, the [`entrypoint.sh`](entrypoint.sh) script does
-three important things:
+When the image starts up, the `/etc/container/setup.sh`
+([`setup.sh`](setup.sh)) script does three important things:
 1. Provides helper functions and variables
-2. Sources configurations scripts in `/srv/container/conf.d/` that end with
+2. Sources configurations scripts in `/etc/container/conf.d/` that end with
    `.sh`
-3. Executes the Docker `CMD` (_if_ it is set)
-
-Application images can include their own `conf.d/` scripts and specify the
-application executable via the Docker `CMD`.
 
 
 ### Configuration scripts
 
 - [`conf.d/msmtp.sh`](conf.d/msmtp.sh)
+
+
+### Services
 
 
 ## Deployment
@@ -52,7 +57,41 @@ The image is deployed via GitHub Actions to the GitHub Container Registry
 [build]: ../.github/workflows/build_trixie_to_ghcr.yml
 
 
-## References
+## Extending
+
+Application images that use this image (`FROM docker pull
+ghcr.io/creativecommons/trixie:latest`) can provide configuration files and
+_must_ add a service instead of using `CMD`.
+
+
+### Application configuration
+
+Application docker images can include their own `conf.d/` scripts and specify
+the application executable via the Docker `CMD`.
+
+Configuration scripts _must_ be writtin for Dash (the Debian Almquist shell).
+Using a `#!/bin/sh` shebang will ensure Shellcheck issues warnings about syntax
+that is not compliant with POSIX.
+- [dash(1) — dash — Debian buster — Debian Manpages][man-dash]
+
+[man-dash]: https://manpages.debian.org/buster/dash/dash.1.en.html
+
+
+### Application services
+
+Runit service related documentation:
+- [How do I create a new service directory - runit - frequently asked
+  questions][runit-create]
+- [Service Directories - Services and Daemons - runit - The Void Linux
+  Handbook][void-services]
+- [runsv(8) — runit — Debian trixie — Debian Manpages][man-runsv]
+
+[runit-create]: https://smarden.org/runit/faq#create
+[void-services]: https://docs.voidlinux.org/config/services/index.html#service-directories
+[man-runsv]: https://manpages.debian.org/trixie/runit/runsv.8.en.html
+
+
+## Additional references
 
 
 ### Debian

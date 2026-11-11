@@ -1,24 +1,25 @@
-#!/bin/bash
+#!/bin/sh
+# Comptabile with Dash (the Debian Almquist shell)
 #
-# This file is sourced by /srv/container/entrypoint.sh
+# This file is sourced by /etc/runit/boot-run/setup.sh
 # (It shouldn't be executed directly)
 
 _APP='msmtp'
 print_bold 'Begin configuration'
 
-_REQ_VARS=(
+_REQ_VARS='
     MSMTP_FROM_EMAIL
     MSMTP_MAILNAME
     MSMTP_ROOT_EMAIL
     MSMTP_SERVER_HOST
     MSMTP_SERVER_PASSWORD
     MSMTP_SERVER_USER
-)
+'
 require_vars
 unset _REQ_VARS
 
 print_msg 'Configure /etc/mailname'
-if [[ "${MSMTP_MAILNAME}" == 'docker' ]]
+if [ "${MSMTP_MAILNAME}" = 'docker' ] && [ -n "${HOSTNAME}" ]
 then
     MSMTP_MAILNAME="docker-${HOSTNAME}"
 fi

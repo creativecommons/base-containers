@@ -1,0 +1,16 @@
+# Like /etc/dpkg/dpkg.cfg.d/docker, this excludes files which are unnecessary
+# https://manpages.debian.org/trixie/dpkg/dpkg.1.en.html#path
+
+# socklog-run
+path-exclude /etc/sv/socklog-inet*
+path-exclude /etc/sv/socklog-klog*
+path-exclude /etc/sv/socklog-notify*
+path-exclude /etc/sv/socklog-ucspi-tcp*
+path-exclude /usr/share/runit/meta/socklog-inet*
+path-exclude /usr/share/runit/meta/socklog-klog*
+path-exclude /usr/share/runit/meta/socklog-notify*
+path-exclude /usr/share/runit/meta/socklog-ucspi-tcp*
+path-exclude /var/log/runit/socklog-inet*
+path-exclude /var/log/runit/socklog-klog*
+path-exclude /var/log/runit/socklog-notify*
+path-exclude /var/log/runit/socklog-ucspi-tcp*

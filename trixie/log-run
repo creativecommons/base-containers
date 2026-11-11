@@ -1,0 +1,4 @@
+#!/bin/sh
+# Send all input to init stdout
+exec 2>&1
+exec cat > /proc/1/fd/1
