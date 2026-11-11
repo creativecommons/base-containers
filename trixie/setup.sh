@@ -10,7 +10,7 @@ set -o nounset
 
 error_exit() {
     _msg="${1}"
-    printf "${E31}ERROR: %s${E0}" "${_msg}" 1>&2
+    printf "${E31}ERROR: %s${E0}\n" "${_msg}" 1>&2
     unset _msg
     exit 100
 }
