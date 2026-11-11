@@ -8,13 +8,6 @@ set -o nounset
 
 #### FUNCTIONS ################################################################
 
-error_exit() {
-    _msg="${1}"
-    printf "${E31}ERROR: %s${E0}\n" "${_msg}" 1>&2
-    unset _msg
-    exit 100
-}
-
 print_bold() {
     # Each application configuration script is expected to set _APP at the
     # beginning and unset it at the end.
@@ -27,6 +20,19 @@ print_bold() {
     _msg="${1}"
     printf "${_color}${_app:-}%s${E0} ${E90}%s${E0}\n" "${_msg}" "${_datetime}"
     unset _color _datetime _msg
+}
+
+print_error() {
+    # Each application configuration script is expected to set _APP at the
+    # beginning and unset it at the end.
+    if [ -n "${_APP:-}" ]
+    then
+        _app="${_APP}: "
+    fi
+    _color="${E31}"
+    _msg="${1}"
+    printf "${_color}${_app:-}%s${E0}\n" "${_msg}"
+    unset _color _msg
 }
 
 print_msg() {
@@ -46,13 +52,24 @@ require_vars() {
     #
     # Each application configuration script is expected to set _REQ_VARS before
     # calling this function and unset it afterwards.
+    _error_exit=
     for _variable in ${_REQ_VARS}
     do
         if env | { ! grep --quiet "^${_variable}=."; }
         then
-            error_exit "Required environment variable is not set: ${_variable}"
+            print_error "Environment variable required: ${_variable}"
+            _error_exit=yes
         fi
     done
+    if [ -n "${_error_exit}" ]
+    then
+        print_error 'Halting due to missing environment variable(s)'
+        # https://manpages.debian.org/trixie/runit/runit.8.en.html
+        # If /etc/runit/1 crashes, or exits 100, runit will skip stage 2 and
+        # enter stage 3.
+        exit 100
+    fi
+    unset _error_exit
 }
 
 #### MAIN #####################################################################
