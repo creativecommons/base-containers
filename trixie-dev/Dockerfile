@@ -26,6 +26,6 @@ RUN set -o errexit -o nounset \
 COPY --chmod=0555 sleep-run /etc/sv/sleep/run
 
 RUN set -o errexit -o nounset \
-    && mkdir -p /etc/sv/sleep \
-    && ln -s /proc/1/fd/1 /etc/sv/sleep/log \
+    && mkdir --parents /etc/sv/sleep/log \
+    && ln -s /etc/sv/socklog-unix/log/run /etc/sv/sleep/log/run \
     && update-service --add sleep

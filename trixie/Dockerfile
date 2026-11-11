@@ -27,6 +27,8 @@ RUN set -o errexit -o nounset \
     && rm --recursive --force /var/lib/apt/lists/* \
     && update-ca-certificates
 
+COPY etc-runit-3 /etc/runit/3
+
 # Runit configuration
 #
 # `rm -f /usr/sbin/policy-rc.d` reverts:
@@ -35,14 +37,13 @@ RUN set -o errexit -o nounset \
 # The default-syslog service is handled specially by runit (packages has
 # related triggers). It can't be excluded and must be added before it can be
 # removed.
+COPY --chmod=0555 log-run /etc/sv/socklog-unix/log/run
 RUN set -o errexit -o nounset \
     && touch \
         /etc/runit/native.boot.run \
         /etc/runit/no.emulate.sysv \
-    && rm -rf \
-        /usr/sbin/policy-rc.d \
-        /etc/sv/socklog-unix/log \
-    && ln -s /proc/1/fd/1 /etc/sv/socklog-unix/log \
+    && mkdir --parents /etc/runit/shutdown-run \
+    && rm -rf /usr/sbin/policy-rc.d \
     && update-service --add socklog-unix \
     && update-service --add default-syslog \
     && update-service --remove default-syslog
