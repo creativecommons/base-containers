@@ -9,7 +9,7 @@ The goal of the CC Debian trixie base image is to provide a consistent platform
 for application images.
 
 - **Docker `FROM` image:** [`debian:trixie-slim`][docker-trixie]
-- **Docker `ENTRYPOINT`:** `/usr/sbin/runit-init`
+- **Docker `ENTRYPOINT`:** `["/usr/bin/dumb-init", "/etc/container/setup.sh"]`
 - **Docker `CMD`:** _unset, ignored_
 - **Notable inclusions:**
   - `msmtp` to allow sending emails
@@ -32,12 +32,11 @@ for application images.
 
 ## Configuration
 
-When the image starts up, the `/etc/runit/boot-run/setup.sh`
+When the image starts up, the `/etc/container/setup.sh`
 ([`setup.sh`](setup.sh)) script does three important things:
 1. Provides helper functions and variables
 2. Sources configurations scripts in `/etc/container/conf.d/` that end with
    `.sh`
-
 
 
 ### Configuration scripts

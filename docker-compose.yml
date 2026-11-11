@@ -20,4 +20,5 @@ services:
       additional_contexts:
         trixie: "service:trixie"
       context: trixie-dev
+    command: sh -c 'echo "CMD ignored? (this should NOT show up in console)"'
     env_file: .env
