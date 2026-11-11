@@ -47,5 +47,5 @@ RUN set -o errexit -o nounset \
     && update-service --remove default-syslog
 COPY --parents conf.d/* color_vars.sh /etc/container/
 COPY --chmod=0555 setup.sh /etc/runit/boot-run/
-ENTRYPOINT ["/usr/sbin/runit-init"]
+ENTRYPOINT ["/usr/sbin/init"]
 # ⚠️  NOTE: CMD is ignored. Services must be installed and enabled per runit.
