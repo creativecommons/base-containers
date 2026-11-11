@@ -12,9 +12,10 @@ for application images.
 - **Docker `ENTRYPOINT`:** `["/usr/bin/dumb-init", "/etc/container/setup.sh"]`
 - **Docker `CMD`:** _unset, ignored_
 - **Notable inclusions:**
-  - `msmtp` to allow sending emails
-  - `runit` to manage processes (init)
-  - `socklog` to send syslog messages to init stdout (docker log)
+  1. `dumb-init` to manage processes (init, PID 1)
+  2. `runit` to manage services
+  3. `socklog` to send syslog messages to init stdout (docker log)
+  4. `msmtp` to allow sending emails
 - **Required variables:**
   - `MSMTP_FROM_EMAIL`
   - `MSMTP_MAILNAME`
