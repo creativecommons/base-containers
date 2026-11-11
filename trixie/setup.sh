@@ -12,7 +12,7 @@ error_exit() {
     _msg="${1}"
     printf "${E31}ERROR: %s${E0}" "${_msg}" 1>&2
     unset _msg
-    exit 1
+    exit 100
 }
 
 print_bold() {
@@ -65,10 +65,3 @@ do
     [ -f "${_config_script}" ] || continue
     . "${_config_script}"
 done
-
-# Execute CMD, if present
-if [ -n "${1:-}" ]
-then
-    print_bold 'Execute CMD'
-    exec "${@}"
-fi

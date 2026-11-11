@@ -1,5 +1,5 @@
 #!/bin/sh
-set -e
+set -o errexit
 sv start socklog-unix >/dev/null \
     && sv check socklog-unix >/dev/null \
     || exit 170

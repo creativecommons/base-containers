@@ -10,7 +10,7 @@ for application images.
 
 - **Docker `FROM` image:** [`debian:trixie-slim`][docker-trixie]
 - **Docker `ENTRYPOINT`:** `/usr/sbin/runit-init`
-- **Docker `CMD`:** _unset_
+- **Docker `CMD`:** _unset, ignored_
 - **Notable inclusions:**
   - `msmtp` to allow sending emails
   - `runit` to manage processes (init)
@@ -22,6 +22,10 @@ for application images.
   - `MSMTP_SERVER_HOST`
   - `MSMTP_SERVER_PASSWORD`
   - `MSMTP_SERVER_USER`
+
+> [!NOTE]
+> `CMD` is ignored by this image. Instead service(s) must be installed and
+> enabled per runit.
 
 [docker-trixie]: https://hub.docker.com/_/debian
 
