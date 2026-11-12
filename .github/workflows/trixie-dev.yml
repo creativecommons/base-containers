@@ -4,7 +4,7 @@ name: 'trixie-dev'
 # GHCR: GitHub Container Registry
 
 on:
-  push:
+  pull_request:
     branches-ignore: [main]
     paths:
       - '.github/workflows/trixie-dev.yml'
@@ -74,7 +74,6 @@ jobs:
               ${{ env.OCI }}.url=${{ env.URL }}
               ${{ env.OCI }}.vendor=${{ env.VENDOR }}
             tags: |
-              type=ref,event=branch,suffix=-{{ sha }}
               type=ref,event=pr,suffix=-{{ sha }}
 
         # https://github.com/docker/setup-buildx-action
