@@ -1,11 +1,16 @@
-# base-containers
+# containers
 
-Early container stages to serve as a foundation for application containers.
+Creative Commons (CC) containers images (primarily for use by CC application
+container images).
 
 
-## Image documentation
+## Images
 
-- [trixie](trixie/)
+- `trixie`
+  - Documetnation: [trixie/](trixie/)
+  - GHCR: [Package trixie][pkg-trixie]
+
+[pkg-trixie]: https://github.com/creativecommons/containers/pkgs/container/trixie
 
 
 ## Development
