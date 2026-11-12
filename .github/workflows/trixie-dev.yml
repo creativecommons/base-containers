@@ -4,12 +4,6 @@ name: 'trixie-dev'
 # GHCR: GitHub Container Registry
 
 on:
-  pull_request:
-    paths:
-      - '.github/workflows/trixie-dev.yml'
-      - '.github/workflows/prek_checks.yml'
-      - 'trixie/'
-      - '!trixie/README.md'
   push:
     branches-ignore: [main]
     paths:
@@ -25,6 +19,10 @@ env:
   TITLE: 'CC Debian trixie (development)'
   URL: 'https://github.com/creativecommons/containers/trixie'
   VENDOR: 'Creative Commons'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref_name }}
+  cancel-in-progress: true
 
 jobs:
 
