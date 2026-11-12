@@ -4,5 +4,5 @@ sv start socklog-unix >/dev/null \
     && sv check socklog-unix >/dev/null \
     || exit 170
 exec 2>&1
-echo 'Sleeping 💤'
+printf '\e[34mSleeping\e[0m 💤\n'
 exec sleep 60
