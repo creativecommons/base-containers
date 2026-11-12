@@ -1,7 +1,7 @@
 # https://docs.docker.com/compose/compose-file/
 # https://docs.docker.com/compose/how-tos/dependent-images/
 
-name: base
+name: cc
 
 services:
 
