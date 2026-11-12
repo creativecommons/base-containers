@@ -1,6 +1,6 @@
 # https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax
 # https://docs.github.com/en/actions/reference/workflows-and-actions/variables
-name: 'trixie-dev - build & push to GHCR'
+name: 'trixie-dev'
 # GHCR: GitHub Container Registry
 
 on:
@@ -76,7 +76,8 @@ jobs:
               ${{ env.OCI }}.url=${{ env.URL }}
               ${{ env.OCI }}.vendor=${{ env.VENDOR }}
             tags: |
-              type=ref,suffix=-{{ sha }}
+              type=ref,event=branch,suffix=-{{ sha }}
+              type=ref,event=pr,suffix=-{{ sha }}
 
         # https://github.com/docker/setup-buildx-action
         - name: Docker setup Buildx
