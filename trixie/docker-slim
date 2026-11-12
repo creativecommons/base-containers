@@ -1,0 +1,8 @@
+# https://www.debian.org/doc/manuals/aptitude/ch02s05s05.en.html#configAptInstall-Recommends
+# https://manpages.debian.org/trixie/apt/apt-get.8.en.html#OPTIONS
+APT::Install-Recommends "false";
+
+# https://manpages.debian.org/trixie/apt/apt-get.8.en.html#OPTIONS
+APT::Install-Suggests "false";
+
+# vim: filetype=aptconf

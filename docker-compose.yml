@@ -22,3 +22,4 @@ services:
       context: trixie-local
     command: sh -c 'echo "CMD ignored? (this should NOT show up in console)"'
     env_file: .env
+    image: trixie-local

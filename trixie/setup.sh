@@ -83,7 +83,7 @@ do
     . "${_config_script}"
 done
 
-# Prep and execute runit
+# Prep and execute runit service management
 # Based on /etc/runit/2
 mkdir --parents /run/runit/supervise
 /lib/runit/trigger_sv setup
