@@ -1,25 +1,29 @@
 # https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax
 # https://docs.github.com/en/actions/reference/workflows-and-actions/variables
-name: Build & push trixie to GHCR
+name: 'trixie-dev - build & push to GHCR'
 # GHCR: GitHub Container Registry
 
 on:
-  create:
-  push:
+  pull_request:
     paths:
-      - '.github/workflows/build_trixie_to_ghcr.yml'
+      - '.github/workflows/trixie-dev.yml'
+      - '.github/workflows/prek_checks.yml'
+      - 'trixie/'
+      - '!trixie/README.md'
+  push:
+    branches-ignore: [main]
+    paths:
+      - '.github/workflows/trixie-dev.yml'
       - '.github/workflows/prek_checks.yml'
       - 'trixie/'
       - '!trixie/README.md'
   workflow_dispatch:
 
 env:
-  DESCRIPTION: 'Creative Commons (CC) Debian 13 (trixe)'
+  DESCRIPTION: 'Creative Commons (CC) Debian 13 (trixe) development'
   OCI: 'org.opencontainers.image'
-  TITLE: 'CC Debian trixie'
-  TYPE_RAW__DEFAULT_ONLY__VALUE_DATE: >-
-    type=raw,enable={{is_default_branch}},value={{date 'YYYYMMDD-HHmmss'}}
-  URL: 'https://github.com/creativecommons/base-containers/trixie'
+  TITLE: 'CC Debian trixie (development)'
+  URL: 'https://github.com/creativecommons/containers/trixie'
   VENDOR: 'Creative Commons'
 
 jobs:
@@ -72,8 +76,6 @@ jobs:
               ${{ env.OCI }}.url=${{ env.URL }}
               ${{ env.OCI }}.vendor=${{ env.VENDOR }}
             tags: |
-              ${{ env.TYPE_RAW__DEFAULT_ONLY__VALUE_DATE }}
-              type=raw,enable={{ is_default_branch }},priority=100,value=latest
               type=sha,enable={{ is_not_default_branch }},prefix={{ branch }}-
 
         # https://github.com/docker/setup-buildx-action

@@ -10,15 +10,15 @@ services:
     build:
       context: trixie
     # disable the entrypoint as the image is only being built locally for use
-    # by trixie-dev
+    # by other services
     entrypoint: /bin/true
     image: trixie
 
-  # Development overlay
-  trixie-dev:
+  # Local development overlay
+  trixie-local:
     build:
       additional_contexts:
         trixie: "service:trixie"
-      context: trixie-dev
+      context: trixie-local
     command: sh -c 'echo "CMD ignored? (this should NOT show up in console)"'
     env_file: .env

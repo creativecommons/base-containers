@@ -1,0 +1,108 @@
+# https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax
+# https://docs.github.com/en/actions/reference/workflows-and-actions/variables
+name: 'trixie - build & push to GHCR'
+# GHCR: GitHub Container Registry
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/build_trixie_to_ghcr.yml'
+      - '.github/workflows/prek_checks.yml'
+      - 'trixie/'
+      - '!trixie/README.md'
+  workflow_dispatch:
+
+env:
+  DESCRIPTION: 'Creative Commons (CC) Debian 13 (trixe)'
+  OCI: 'org.opencontainers.image'
+  TITLE: 'CC Debian trixie'
+  TYPE_RAW__DEFAULT_ONLY__VALUE_DATE: >-
+    type=raw,enable={{is_default_branch}},value={{date 'YYYYMMDD-HHmmss'}}
+  URL: 'https://github.com/creativecommons/containers/trixie'
+  VENDOR: 'Creative Commons'
+
+jobs:
+
+  prek_checks:
+    uses: $/.github/workflows/prek_checks.yml
+
+  build_and_push:
+    needs: prek_checks
+    permissions:
+      contents: read
+      packages: write
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - parallel:
+
+        # https://github.com/docker/login-action
+        - name: Docker login to GitHub Container Registry (GHCR)
+          # docker/login-action v4.8.0
+          uses: docker/login-action@8aa5831fb8d48d8f76594c7ddde61ae58019f550
+          with:
+            registry: ghcr.io
+            username: ${{ github.actor }}
+            password: ${{ secrets.GITHUB_TOKEN }}
+
+        # https://github.com/docker/metadata-action
+        - name: Docker extract metadata
+          id: docker_meta
+          env:
+            DOCKER_METADATA_ANNOTATIONS_LEVELS: index
+          # docker/metadata-action v6.2.0
+          uses: docker/metadata-action@dc802804100637a589fabce1cb79ff13a1411302
+          with:
+            annotations: |
+              ${{ env.OCI }}.created={{ date 'YYYY-MM-DDTHH:mm:ss.SSS[Z]' }}
+              ${{ env.OCI }}.description=${{ env.DESCRIPTION }}
+              ${{ env.OCI }}.source=${{ env.URL }}
+              ${{ env.OCI }}.title=${{ env.TITLE }}
+              ${{ env.OCI }}.url=${{ env.URL }}
+              ${{ env.OCI }}.vendor=${{ env.VENDOR }}
+            images: ghcr.io/creativecommons/trixie
+            # https://specs.opencontainers.org/image-spec/annotations/
+            labels: |
+              ${{ env.OCI }}.created={{ date 'YYYY-MM-DDTHH:mm:ss.SSS[Z]' }}
+              ${{ env.OCI }}.description=${{ env.DESCRIPTION }}
+              ${{ env.OCI }}.source=${{ env.URL }}
+              ${{ env.OCI }}.title=${{ env.TITLE }}
+              ${{ env.OCI }}.url=${{ env.URL }}
+              ${{ env.OCI }}.vendor=${{ env.VENDOR }}
+            tags: |
+              ${{ env.TYPE_RAW__DEFAULT_ONLY__VALUE_DATE }}
+              type=raw,enable={{ is_default_branch }},priority=100,value=latest
+
+        # https://github.com/docker/setup-buildx-action
+        - name: Docker setup Buildx
+          id: docker_buildx
+          # docker/setup-buildx-action v4.4.1
+          uses: >-
+            docker/setup-buildx-action@f87e5991a6d7451dcb8d9637bfbc97413f497069
+          with:
+            platforms: linux/amd64,linux/arm64
+
+        # https://github.com/actions/checkout
+        - name: GitHub checkout repository
+          # actions/checkout v7.0.1
+          uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+
+
+      # https://github.com/docker/build-push-action
+      - name: Build and push Docker trixie image to GHCR
+        # build-push-action v7.4.0
+        uses: docker/build-push-action@c3c9e263c25d99ce0380d002d59b67737d91b0dc
+        with:
+          annotations: ${{ steps.docker_meta.outputs.annotations }}
+          builder: ${{ steps.docker_buildx.outputs.name }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+          context: trixie
+          labels: ${{ steps.docker_meta.outputs.labels }}
+          platforms: ${{ steps.docker_buildx.outputs.platforms }}
+          provenance: false
+          push: true
+          sbom: false
+          tags: ${{ steps.docker_meta.outputs.tags }}
