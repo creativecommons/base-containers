@@ -20,7 +20,7 @@ on:
   workflow_dispatch:
 
 env:
-  DESCRIPTION: 'Creative Commons (CC) Debian 13 (trixe) development'
+  DESCRIPTION: 'Creative Commons (CC) Debian 13 (trixie) development'
   OCI: 'org.opencontainers.image'
   TITLE: 'CC Debian trixie (development)'
   URL: 'https://github.com/creativecommons/containers/trixie'
@@ -76,7 +76,7 @@ jobs:
               ${{ env.OCI }}.url=${{ env.URL }}
               ${{ env.OCI }}.vendor=${{ env.VENDOR }}
             tags: |
-              type=sha,enable={{ is_not_default_branch }},prefix={{ branch }}-
+              type=ref,suffix=-{{ sha }}
 
         # https://github.com/docker/setup-buildx-action
         - name: Docker setup Buildx

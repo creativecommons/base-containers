@@ -7,18 +7,16 @@ on:
   push:
     branches: [main]
     paths:
-      - '.github/workflows/build_trixie_to_ghcr.yml'
+      - '.github/workflows/trixie.yml'
       - '.github/workflows/prek_checks.yml'
       - 'trixie/'
       - '!trixie/README.md'
   workflow_dispatch:
 
 env:
-  DESCRIPTION: 'Creative Commons (CC) Debian 13 (trixe)'
+  DESCRIPTION: 'Creative Commons (CC) Debian 13 (trixie)'
   OCI: 'org.opencontainers.image'
   TITLE: 'CC Debian trixie'
-  TYPE_RAW__DEFAULT_ONLY__VALUE_DATE: >-
-    type=raw,enable={{is_default_branch}},value={{date 'YYYYMMDD-HHmmss'}}
   URL: 'https://github.com/creativecommons/containers/trixie'
   VENDOR: 'Creative Commons'
 
@@ -72,8 +70,8 @@ jobs:
               ${{ env.OCI }}.url=${{ env.URL }}
               ${{ env.OCI }}.vendor=${{ env.VENDOR }}
             tags: |
-              ${{ env.TYPE_RAW__DEFAULT_ONLY__VALUE_DATE }}
-              type=raw,enable={{ is_default_branch }},priority=100,value=latest
+              type=raw,value={{date 'YYYYMMDD-HHmmss'}}
+              type=raw,priority=100,value=latest
 
         # https://github.com/docker/setup-buildx-action
         - name: Docker setup Buildx
