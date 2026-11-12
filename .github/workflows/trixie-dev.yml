@@ -64,7 +64,7 @@ jobs:
               ${{ env.OCI }}.title=${{ env.TITLE }}
               ${{ env.OCI }}.url=${{ env.URL }}
               ${{ env.OCI }}.vendor=${{ env.VENDOR }}
-            images: ghcr.io/creativecommons/trixie
+            images: ghcr.io/creativecommons/trixie-dev
             # https://specs.opencontainers.org/image-spec/annotations/
             labels: |
               ${{ env.OCI }}.created={{ date 'YYYY-MM-DDTHH:mm:ss.SSS[Z]' }}
