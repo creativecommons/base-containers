@@ -51,10 +51,12 @@ When the image starts up, the `/etc/container/setup.sh`
 ## Deployment
 
 The image is deployed via GitHub Actions to the GitHub Container Registry
-(GHCR). See the workflow for details:
-[`../.github/workflows/build_trixie_to_ghcr.yml`][build].
+(GHCR). See the workflows for details:
+- `main` branch: [`../.github/workflows/trixie.yml`][build]
+- all other branches: [`../.github/workflows/trixie-dev.yml`][build-dev]
 
-[build]: ../.github/workflows/build_trixie_to_ghcr.yml
+[build]: ../.github/workflows/trixi.yml
+[build]: ../.github/workflows/trixie-dev.yml
 
 
 ## Extending

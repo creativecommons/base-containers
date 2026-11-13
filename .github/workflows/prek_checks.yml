@@ -1,6 +1,5 @@
 name: prek checks
-# push is not included because build workflows call this on push
-on: [pull_request, workflow_call, workflow_dispatch]
+on: [workflow_call, workflow_dispatch]
 
 jobs:
   prek:
@@ -21,6 +20,9 @@ jobs:
           env:
             # The first three variables (HADOLINT_DOWNLOAD, HADOLINT_BINARY,
             # HADOLINT_VERSION) are all parts of the release binary URL.
+            #
+            # The first two variables are generic and shouldn't need to be
+            # updated
             HADOLINT_DOWNLOAD: >-
               https://github.com/hadolint/hadolint/releases/download
             HADOLINT_BINARY: hadolint-linux-x86_64
@@ -46,6 +48,7 @@ jobs:
           uses: j178/prek-action@44924fe9ef4a6f88253c4b6b1bf11c689d3ce53d
           with:
             install-only: true
+
 
       # The no-commit-to-branch builtin hook is skipped to avoid false
       # positives (ex. when PRs are merged)

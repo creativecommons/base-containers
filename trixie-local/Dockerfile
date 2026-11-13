@@ -4,15 +4,13 @@
 FROM trixie
 
 # https://docs.docker.com/build/building/best-practices/#apt-get
-# - Resynchronize the package index, update packages, install packages,
-#   and clean-up apt/dpkg
+# - apt and dpkg are configured in parent CC Debian trixie image
+# - Retrieve new lists of packages, distribution upgrade, install new
+#   packages, erase downloaded archive files, and erase package lists
 RUN set -o errexit -o nounset \
-    && DEBIAN_FRONTEND=noninteractive apt-get update \
-        --no-allow-insecure-repositories --quiet \
-    && DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade \
-        --no-install-recommends --no-install-suggests --quiet --yes \
-    && DEBIAN_FRONTEND=noninteractive apt-get install \
-        --no-install-recommends --no-install-suggests --quiet --yes \
+    && apt-get update --quiet \
+    && apt-get dist-upgrade --quiet --yes \
+    && apt-get install --quiet --yes \
         curl \
         httpie \
         less \
@@ -20,11 +18,11 @@ RUN set -o errexit -o nounset \
         tree \
         vim \
         wget \
-    && DEBIAN_FRONTEND=noninteractive apt-get clean --quiet
+    && apt-get clean --quiet \
+    && rm --recursive --force /var/lib/apt/lists/*
 
 # Create a Sleep service
 COPY --chmod=0555 sleep-run /etc/sv/sleep/run
-
 RUN set -o errexit -o nounset \
     && mkdir --parents /etc/sv/sleep/log \
     && ln -s /etc/sv/socklog-unix/log/run /etc/sv/sleep/log/run \
